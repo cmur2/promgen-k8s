@@ -22,7 +22,7 @@ promgen-k8s is successfully used with Kubernetes clusters on [AWS](http://aws.am
 
 ## Example
 
-The [example](example-generator.py) uses a [stub file](example-prometheus-stub.yml) for manual configuration and requires [pyyaml](http://pyyaml.org/) to be installed.
+The [example](example-generator.py) uses a [stub file](example-prometheus-stub.yml) for manual configuration and can be tested using `pip install promgen-k8s` and then `python example-generator.py`.
 
 ## Related
 
