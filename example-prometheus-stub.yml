@@ -1,0 +1,15 @@
+# This configuration file is only a stub used by the example-generator.py
+# to allow manual modifications or additions to the final prometheus.yml
+
+---
+# Global settings
+global:
+  scrape_interval: 1m
+  evaluation_interval: 1m
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "/etc/alert.rules"
+
+scrape_configs:
+  # This is only a stub - all Kubernetes related jobs will be generated!

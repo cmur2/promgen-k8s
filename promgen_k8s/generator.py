@@ -1,0 +1,34 @@
+
+import yaml
+
+from cadvisor_job import *
+from cluster import *
+from nodes_job import *
+from pods_job import *
+from prom_dsl import *
+from service_endpoints_job import *
+from services_job import *
+
+# via http://pyyaml.org/ticket/64
+class ListIndentingDumper(yaml.Dumper):
+  def increase_indent(self, flow=False, indentless=False):
+    return super(ListIndentingDumper, self).increase_indent(flow, False)
+
+class Generator:
+  def __init__(self, clusters, initial_prom_conf={}):
+    self.clusters = clusters
+    self.initial_prom_conf = initial_prom_conf
+
+  def dump(self, file):
+    prom_conf = {}
+    prom_conf.update(self.initial_prom_conf)
+
+    if prom_conf['scrape_configs'] is None:
+      prom_conf['scrape_configs'] = []
+
+    # add jobs for k8s clusters
+    for c in self.clusters:
+      for j in c.jobs:
+        j.generate(prom_conf, c)
+
+    yaml.dump(prom_conf, file, Dumper=ListIndentingDumper, default_flow_style=False, explicit_start=True)
