@@ -9,10 +9,13 @@ from prom_dsl import *
 from service_endpoints_job import *
 from services_job import *
 
-# via http://pyyaml.org/ticket/64
+# via http://pyyaml.org/ticket/64 and http://signal0.com/2013/02/06/disabling_aliases_in_pyyaml.html
 class ListIndentingDumper(yaml.Dumper):
   def increase_indent(self, flow=False, indentless=False):
     return super(ListIndentingDumper, self).increase_indent(flow, False)
+
+  def ignore_aliases(self, data):
+    return True
 
 class Generator:
   def __init__(self, clusters, initial_prom_conf={}):
