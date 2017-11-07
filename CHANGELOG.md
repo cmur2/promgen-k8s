@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.2
+## 0.1.2 (November 7, 2017)
 
 IMPROVEMENTS:
 
