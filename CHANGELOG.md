@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+IMPROVEMENTS:
+
+- Use cAdvisor metrics path compatible with Kubernetes 1.7.3 and above
+
 ## 0.1.1 (September 13, 2017)
 
 IMPROVEMENTS:

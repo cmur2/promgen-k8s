@@ -40,9 +40,8 @@ class CadvisorJob:
         labelmap(regex='__meta_kubernetes_node_label_(.+)'),
         set_value('__address__', '{0}:443'.format(c.api_server)),
         replace(source_labels=['__meta_kubernetes_node_name'],
-          regex='(.+)', replacement='/api/v1/nodes/${1}:4194/proxy/metrics',
+          regex='(.+)', replacement='/api/v1/nodes/${1}/proxy/metrics/cadvisor',
           target_label='__metrics_path__')
-          # replacement='/api/v1/nodes/${1}/proxy/metrics/cadvisor'
       ],
 
       'metric_relabel_configs': [
