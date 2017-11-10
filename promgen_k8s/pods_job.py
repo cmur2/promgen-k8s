@@ -48,7 +48,10 @@ class PodsJob:
           target_label='__metrics_path__'),
         replace(source_labels=['__meta_kubernetes_pod_host_ip'],
           regex='(172\\.2[0,2-9].[0-9]*\\.[0-9]*)', replacement=c.proxy,
-          target_label='__address__')
+          target_label='__address__'),
+        replace(source_labels=['__meta_kubernetes_pod_host_ip'],
+          regex='(172\\.2[0,2-9].[0-9]*\\.[0-9]*)', replacement='$1:9100',
+          target_label='instance')
       ])
 
     # add additional configs
