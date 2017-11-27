@@ -33,7 +33,8 @@ class PodsJob:
         copy_value('__meta_kubernetes_namespace', 'kubernetes_namespace'),
         copy_value('__meta_kubernetes_pod_name', 'kubernetes_pod_name'),
         remove_label('pod_template_hash'),
-        remove_label('controller_revision_hash')
+        remove_label('controller_revision_hash'),
+        remove_label('pod_template_generation')
       ],
 
       'metric_relabel_configs': [
