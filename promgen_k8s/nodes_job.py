@@ -31,6 +31,8 @@ class NodesJob:
       # Keep all node labels without their prefix, proxy against apiserver with
       # HTTPS by default
       'relabel_configs': [
+        remove_label('__meta_kubernetes_node_label_node_role_kubernetes_io_node'),
+        remove_label('__meta_kubernetes_node_label_node_role_kubernetes_io_master'),
         labelmap(regex='__meta_kubernetes_node_label_(.+)'),
         set_value('__address__', '{0}:443'.format(c.api_server)),
         replace(source_labels=['__meta_kubernetes_node_name'],

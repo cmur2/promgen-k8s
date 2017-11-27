@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+IMPROVEMENTS:
+
+- Remove some unneeded since duplicated labels from pods, nodes and cadvisor jobs
+
 ## 0.1.2 (November 7, 2017)
 
 IMPROVEMENTS:
