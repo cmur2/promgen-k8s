@@ -26,8 +26,8 @@ class ServicesJob:
       'relabel_configs': [
         keep(source_labels=['__meta_kubernetes_service_annotation_prometheus_io_probe'], regex=True),
         None,
+        copy_value('__address__', 'instance'),
         set_value('__address__', 'blackbox-exporter'),
-        copy_value('__param_target', 'instance'),
         labelmap(regex='__meta_kubernetes_service_label_(.+)'),
         copy_value('__meta_kubernetes_namespace', 'kubernetes_namespace'),
         copy_value('__meta_kubernetes_service_name', 'kubernetes_service_name')

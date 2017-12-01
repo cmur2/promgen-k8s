@@ -34,6 +34,7 @@ class NodesJob:
         remove_label('__meta_kubernetes_node_label_node_role_kubernetes_io_node'),
         remove_label('__meta_kubernetes_node_label_node_role_kubernetes_io_master'),
         labelmap(regex='__meta_kubernetes_node_label_(.+)'),
+        copy_value('__address__', 'instance'),
         set_value('__address__', '{0}:443'.format(c.api_server)),
         replace(source_labels=['__meta_kubernetes_node_name'],
           regex='(.+)', replacement='/api/v1/nodes/${1}/proxy/metrics',
