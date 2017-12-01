@@ -38,10 +38,10 @@ class ServicesJob:
       prom_conf['scrape_configs'][-1]['relabel_configs'][1] = \
         copy_value('__address__', '__param_target')
     else:
-      prom_conf['scrape_configs'][-1]['relabel_configs'][1] = replace(
-        source_labels=['__address__'],
-        regex='([^.]+)\\.default\\.svc:\\d+$', replacement=c.proxy+'/proxy/$1/',
-        target_label='__param_target')
+      prom_conf['scrape_configs'][-1]['relabel_configs'][1] = \
+        replace(source_labels=['__address__'],
+          regex='(.*)', replacement=c.proxy+'/proxy/$1',
+          target_label='__param_target')
 
     # add additional_relabel_configs
     prom_conf['scrape_configs'][-1]['relabel_configs'].extend(self.additional_relabel_configs)

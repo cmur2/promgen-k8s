@@ -44,13 +44,11 @@ class PodsJob:
 
     if not c.incluster:
       prom_conf['scrape_configs'][-1]['relabel_configs'].extend([
-        replace(source_labels=['__meta_kubernetes_pod_host_ip','__address__','__metrics_path__'],
-          regex='(172\\.2[0,2-9].[0-9]*\\.[0-9]*);([0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]*:[0-9]*);(.*)', replacement='/proxy/$2$3',
         copy_value('__address__', 'instance'),
+        replace(source_labels=['__address__','__metrics_path__'],
+          regex='([0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]*:[0-9]*);(.*)', replacement='/proxy/$1$2',
           target_label='__metrics_path__'),
-        replace(source_labels=['__meta_kubernetes_pod_host_ip'],
-          regex='(172\\.2[0,2-9].[0-9]*\\.[0-9]*)', replacement=c.proxy,
-          target_label='__address__')
+        set_value('__address__', c.proxy)
       ])
 
     # add additional configs
