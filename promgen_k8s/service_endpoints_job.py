@@ -1,7 +1,7 @@
 
 from prom_dsl import *
 
-class ServiceEndpoitsJob:
+class ServiceEndpointsJob:
   def __init__(self, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
     self.type = 'service-endpoints'
     self.additional_relabel_configs = additional_relabel_configs
@@ -51,3 +51,7 @@ class ServiceEndpoitsJob:
     # add additional configs
     prom_conf['scrape_configs'][-1]['relabel_configs'].extend(self.additional_relabel_configs)
     prom_conf['scrape_configs'][-1]['metric_relabel_configs'] = self.additional_metric_relabel_configs
+
+# backwards-compatibiliy for typo
+class ServiceEndpoitsJob(ServiceEndpointsJob):
+  pass

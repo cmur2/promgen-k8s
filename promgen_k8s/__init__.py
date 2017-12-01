@@ -6,5 +6,6 @@ from generator import Generator
 from nodes_job import NodesJob
 from pods_job import PodsJob
 from prom_dsl import *
+from service_endpoints_job import ServiceEndpointsJob
 from service_endpoints_job import ServiceEndpoitsJob
 from services_job import ServicesJob

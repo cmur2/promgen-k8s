@@ -9,7 +9,7 @@ CLUSTERS = [
   g.Cluster('staging', jobs=[
     g.NodesJob(),
     g.CadvisorJob(),
-    g.ServiceEndpoitsJob(),
+    g.ServiceEndpointsJob(),
     g.ServicesJob(additional_relabel_configs=[
       # reverse.default.svc:443 should prompt for authentication in staging environment
       replace(source_labels=['__param_target'],
@@ -21,7 +21,7 @@ CLUSTERS = [
   g.Cluster('production', jobs=[
     g.NodesJob(),
     g.CadvisorJob(),
-    g.ServiceEndpoitsJob(),
+    g.ServiceEndpointsJob(),
     g.ServicesJob(),
     g.PodsJob()
   ]),
@@ -29,7 +29,7 @@ CLUSTERS = [
   g.Cluster('operations', incluster=True, jobs=[
     g.NodesJob(),
     g.CadvisorJob(),
-    g.ServiceEndpoitsJob(),
+    g.ServiceEndpointsJob(),
     g.ServicesJob(),
     g.PodsJob()
   ])
