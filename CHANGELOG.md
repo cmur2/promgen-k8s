@@ -7,6 +7,7 @@ IMPROVEMENTS:
 - Remove some unneeded since duplicated labels from pods, nodes and cadvisor jobs
 - Fix typo in name of the `ServiceEndpointsJob`
 - Provide unique instance label for all jobs, usually copied from the __address__ label
+- Add `IngressesJob` for probing ingresses via the blackbox exporter (no HTTPS support)
 
 ## 0.1.2 (November 7, 2017)
 

@@ -8,6 +8,7 @@ from promgen_k8s.prom_dsl import *
 CLUSTERS = [
   g.Cluster('staging', jobs=[
     g.NodesJob(),
+    g.IngressesJob(),
     g.CadvisorJob(),
     g.ServiceEndpointsJob(),
     g.ServicesJob(additional_relabel_configs=[
@@ -20,6 +21,7 @@ CLUSTERS = [
   ]),
   g.Cluster('production', jobs=[
     g.NodesJob(),
+    g.IngressesJob(),
     g.CadvisorJob(),
     g.ServiceEndpointsJob(),
     g.ServicesJob(),
@@ -28,6 +30,7 @@ CLUSTERS = [
   # The incluster property marks the cluster in which Prometheus in running
   g.Cluster('operations', incluster=True, jobs=[
     g.NodesJob(),
+    g.IngressesJob(),
     g.CadvisorJob(),
     g.ServiceEndpointsJob(),
     g.ServicesJob(),
