@@ -1,4 +1,6 @@
 
+import itertools
+
 # Basic DSL
 # def rc_entry(**kwargs):
 #   return kwargs
@@ -20,6 +22,10 @@ def replace(**kwargs):
   # TODO: replace is the default action, drop it?
   kwargs['action'] = 'replace'
   return kwargs
+
+def rc_list(*things):
+  iterables = [thing if isinstance(thing, list) else [thing] for thing in things]
+  return list(itertools.chain(*iterables))
 
 # Advanced DSL
 def set_value(label_name, value):
