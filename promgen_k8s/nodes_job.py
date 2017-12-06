@@ -2,8 +2,9 @@
 from prom_dsl import *
 
 class NodesJob:
-  def __init__(self, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
+  def __init__(self, scrape_interval=None, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
     self.type = 'nodes'
+    self.scrape_interval = scrape_interval
     self.additional_relabel_configs = additional_relabel_configs
     self.additional_metric_relabel_configs = additional_metric_relabel_configs
 
@@ -45,6 +46,10 @@ class NodesJob:
         drop(source_labels=['__name__'], regex='go_.*')
       ]
     })
+
+    # set job's scrape_interval if defined
+    if not self.scrape_interval is None:
+      prom_conf['scrape_configs'][-1]['scrape_interval'] = self.scrape_interval
 
     # add additional configs
     prom_conf['scrape_configs'][-1]['relabel_configs'].extend(self.additional_relabel_configs)

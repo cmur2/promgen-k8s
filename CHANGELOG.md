@@ -8,6 +8,7 @@ IMPROVEMENTS:
 - Fix typo in name of the `ServiceEndpointsJob`
 - Provide unique instance label for all jobs, usually copied from the __address__ label
 - Add `IngressesJob` for probing ingresses via the blackbox exporter (no HTTPS support)
+- Allow setting the `scrape_interval` for nodes, cadvisor and services jobs
 
 ## 0.1.2 (November 7, 2017)
 

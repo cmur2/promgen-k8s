@@ -2,8 +2,9 @@
 from prom_dsl import *
 
 class ServicesJob:
-  def __init__(self, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
+  def __init__(self, scrape_interval=None, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
     self.type = 'services'
+    self.scrape_interval = scrape_interval
     self.additional_relabel_configs = additional_relabel_configs
     self.additional_metric_relabel_configs = additional_metric_relabel_configs
 
@@ -42,6 +43,10 @@ class ServicesJob:
         replace(source_labels=['__address__'],
           regex='(.*)', replacement=c.proxy+'/proxy/$1',
           target_label='__param_target')
+
+    # set job's scrape_interval if defined
+    if not self.scrape_interval is None:
+      prom_conf['scrape_configs'][-1]['scrape_interval'] = self.scrape_interval
 
     # add additional_relabel_configs
     prom_conf['scrape_configs'][-1]['relabel_configs'].extend(self.additional_relabel_configs)
