@@ -34,7 +34,7 @@ CLUSTERS = [
     g.CadvisorJob(),
     g.ServiceEndpointsJob(),
     g.ServicesJob(),
-    g.PodsJob()
+    g.PodsJob(interval_map={'long': '1h'})
   ])
 ]
 

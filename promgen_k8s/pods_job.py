@@ -2,8 +2,9 @@
 from prom_dsl import *
 
 class PodsJob:
-  def __init__(self, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
+  def __init__(self, interval_map={}, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
     self.type = 'pods'
+    self.interval_map = interval_map
     self.additional_relabel_configs = additional_relabel_configs
     self.additional_metric_relabel_configs = additional_metric_relabel_configs
 
@@ -16,13 +17,21 @@ class PodsJob:
   # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
   # * `prometheus.io/port`: Scrape the pod on the indicated port instead of the
   # pod's declared ports (default is a port-free target if none are declared).
+  # * `prometheus.io/interval`: If present, use the given level instead
+  # of the global default (must be configured appropriately)
   def generate(self, prom_conf, c):
+    self.generate_interval(prom_conf, c, 'default', None)
+    for name, value in self.interval_map.iteritems():
+      self.generate_interval(prom_conf, c, name, value)
+
+  def generate_interval(self, prom_conf, c, interval_name, interval_value):
     prom_conf['scrape_configs'].append({
-      'job_name': '{0}-kubernetes-pods'.format(c.name),
+      'job_name': '{0}-kubernetes-pods-{1}'.format(c.name, interval_name),
       'kubernetes_sd_configs': [ c.get_kubernetes_sd_config('pod') ],
 
       'relabel_configs': [
         keep(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_scrape'], regex=True),
+        None,
         replace(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_path'],
           regex='(.+)',
           target_label='__metrics_path__'),
@@ -50,6 +59,17 @@ class PodsJob:
           target_label='__metrics_path__'),
         set_value('__address__', c.proxy)
       ])
+
+    if interval_name is 'default':
+      prom_conf['scrape_configs'][-1]['relabel_configs'][1] = \
+        drop(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_interval'], regex='.+')
+    else:
+      prom_conf['scrape_configs'][-1]['relabel_configs'][1] = \
+        keep(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_interval'], regex=interval_name)
+
+    # set job's scrape_interval if defined
+    if not interval_value is None:
+      prom_conf['scrape_configs'][-1]['scrape_interval'] = interval_value
 
     # add additional configs
     prom_conf['scrape_configs'][-1]['relabel_configs'].extend(self.additional_relabel_configs)
