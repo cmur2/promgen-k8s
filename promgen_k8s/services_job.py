@@ -41,7 +41,7 @@ class ServicesJob:
     else:
       prom_conf['scrape_configs'][-1]['relabel_configs'][1] = \
         replace(source_labels=['__address__'],
-          regex='(.*)', replacement=c.proxy+'/proxy/$1',
+          regex='(.*)', replacement=c.proxy+'/proxy/$1/',
           target_label='__param_target')
 
     # set job's scrape_interval if defined
