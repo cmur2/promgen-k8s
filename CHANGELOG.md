@@ -10,6 +10,7 @@ IMPROVEMENTS:
 - Add `IngressesJob` for probing ingresses via the blackbox exporter (no HTTPS support)
 - Allow setting the `scrape_interval` for nodes, cadvisor, services, service endpoints and ingresses jobs
 - Support different scrape intervals for pods using `prometheus.io/interval` annotation
+- Do not require proxies in remote clusters anymore for scraping pods, services, service endpoints or ingresses but blackbox-exporter might be needed instead
 
 ## 0.1.2 (November 7, 2017)
 

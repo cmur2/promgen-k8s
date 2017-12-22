@@ -14,9 +14,11 @@ promgen-k8s aims to provide a toolkit allowing you to easily generate a promethe
 
 ## Current State
 
-promgen-k8s is currently in a very early state where it manages to generate the example  [prometheus-kubernetes.yml](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml) for multiple clusters using [autodiscovery](https://prometheus.io/docs/operating/configuration/#%3Ckubernetes_sd_config%3E) including custom relabeling rules per cluster. It assumes that it can reach all Kubernetes apiservers under predictable DNS names using the provided secret files for authentication.
+promgen-k8s is currently in a very early state where it manages to generate the example  [prometheus-kubernetes.yml](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml) for multiple clusters using [autodiscovery](https://prometheus.io/docs/operating/configuration/#%3Ckubernetes_sd_config%3E) including custom relabeling rules per cluster. It assumes that it can reach all Kubernetes apiservers by predictable DNS names using the provided secret files for authentication.
 
-For ingresses, pod, service and service endpoint monitoring in remote clusters promgen-k8s requires a proxy in each remote cluster as bastion since Kubernetes uses overlay networks with virtual addresses that are not reachable from outside of a cluster. The proxy can be a simple [Nginx](http://nginx.org) pod that forwards all incoming requests like `http://proxy/10.0.0.1:8080/metrics` to `http://10.0.0.1:8080/metrics` in its local cluster and is accessible e.g. through a load balancer. As ingresses and services are checked using the blackbox-exporter promgen-k8s also assumes a `blackbox-exporter` pod running co-located to the Prometheus in the operations cluster.
+For ingresses, pod, service and service endpoint monitoring in remote clusters promgen-k8s uses the Kubernetes apiservers as an [HTTP proxy](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-services/).
+
+As ingresses and services are checked using the [blackbox-exporter](https://github.com/prometheus/blackbox_exporter/) promgen-k8s also assumes a `blackbox-exporter` pod and service in `monitoring` namespace running in each cluster (including remote clusters).
 
 promgen-k8s is successfully used with Kubernetes clusters on [AWS](http://aws.amazon.com/) created by [kops](https://github.com/kubernetes/kops).
 

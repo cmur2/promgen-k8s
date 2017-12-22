@@ -17,9 +17,19 @@ class IngressesJob:
   def generate(self, prom_conf, c):
     prom_conf['scrape_configs'].append({
       'job_name': '{0}-kubernetes-ingresses'.format(c.name),
+      'scheme': 'https',
       'kubernetes_sd_configs': [ c.get_kubernetes_sd_config('ingress') ],
 
-      'metrics_path': '/probe',
+      # This TLS & bearer token file config is used to connect to the actual scrape
+      # endpoints for cluster components. This is separate to discovery auth
+      # configuration because discovery & scraping are two separate concerns in
+      # Prometheus. The discovery auth config is automatic if Prometheus runs inside
+      # the cluster. Otherwise, more config options have to be provided within the
+      # <kubernetes_sd_config>.
+      'tls_config': { 'ca_file': c.ca_file },
+      'bearer_token_file': c.bearer_token_file,
+
+      'metrics_path': '/api/v1/namespaces/monitoring/services/blackbox-exporter/proxy/probe',
       'params': {
         'module': ['http_2xx']
       },
@@ -30,24 +40,14 @@ class IngressesJob:
         replace(source_labels=['__address__','__meta_kubernetes_ingress_path'],
           regex='(.+);(.+)', replacement='${1}${2}',
           target_label='__address__'),
-        None,
+        copy_value('__address__', '__param_target'),
         copy_value('__address__', 'instance'),
-        set_value('__address__', 'blackbox-exporter'),
-        copy_value('__param_target', 'instance'),
+        set_value('__address__', '{0}:443'.format(c.api_server)),
         labelmap(regex='__meta_kubernetes_ingress_label_(.+)'),
         copy_value('__meta_kubernetes_namespace', 'kubernetes_namespace'),
         copy_value('__meta_kubernetes_ingress_name', 'kubernetes_ingress_name')
       ]
     })
-
-    if c.incluster:
-      prom_conf['scrape_configs'][-1]['relabel_configs'][2] = \
-        copy_value('__address__', '__param_target')
-    else:
-      prom_conf['scrape_configs'][-1]['relabel_configs'][2] = \
-        replace(source_labels=['__address__'],
-          regex='(.*)', replacement=c.proxy+'/proxy/$1',
-          target_label='__param_target')
 
     # set job's scrape_interval if defined
     if not self.scrape_interval is None:
