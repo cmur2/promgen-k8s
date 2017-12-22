@@ -35,7 +35,7 @@ class IngressesJob:
         copy_value('__param_target', 'instance'),
         labelmap(regex='__meta_kubernetes_ingress_label_(.+)'),
         copy_value('__meta_kubernetes_namespace', 'kubernetes_namespace'),
-        copy_value('__meta_kubernetes_ingress_name', 'kubernetes_service_name')
+        copy_value('__meta_kubernetes_ingress_name', 'kubernetes_ingress_name')
       ]
     })
 
