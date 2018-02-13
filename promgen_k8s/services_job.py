@@ -36,7 +36,11 @@ class ServicesJob:
 
       'relabel_configs': [
         keep(source_labels=['__meta_kubernetes_service_annotation_prometheus_io_probe'], regex=True),
+        copy_value('__meta_kubernetes_service_annotation_prometheus_io_module', '__param_module'),
         copy_value('__address__', '__param_target'),
+        replace(source_labels=['__param_target', '__meta_kubernetes_service_annotation_prometheus_io_path'],
+          separator=';', regex='(.+);(.+)', replacement='$1$2',
+          target_label='__param_target'),
         copy_value('__address__', 'instance'),
         set_value('__address__', '{0}:443'.format(c.api_server)),
         labelmap(regex='__meta_kubernetes_service_label_(.+)'),

@@ -4,7 +4,7 @@ A modular [Prometheus 2](https://prometheus.io) configuration file generator to 
 
 ## Scenario
 
-You have one Kubernetes cluster per environment (dev, staging, production) for whichever reasons including e.g. special permission model, limiting the blast radius of problems related to Kubernetes or to test Kubernetes upgrades in staging environment first.
+You have one Kubernetes cluster per environment (dev, qa, staging, production, etc.) for whichever reasons including e.g. special permission model, limiting the blast radius of problems related to Kubernetes or to test Kubernetes upgrades in staging environment first.
 You have a separate Kubernetes cluster for operations that runs your monitoring and logging setup, CI pipeline, etc.
 You want to monitor all environments/clusters with a single Prometheus instance located in the operations cluster.
 
@@ -20,7 +20,7 @@ For ingresses, pod, service and service endpoint monitoring in remote clusters p
 
 As ingresses and services are checked using the [blackbox-exporter](https://github.com/prometheus/blackbox_exporter/) promgen-k8s also assumes a `blackbox-exporter` pod and service in `monitoring` namespace running in each cluster (including remote clusters).
 
-promgen-k8s is successfully used with Kubernetes clusters on [AWS](http://aws.amazon.com/) created by [kops](https://github.com/kubernetes/kops).
+promgen-k8s is successfully used with Kubernetes 1.8 clusters on [AWS](http://aws.amazon.com/) created by [kops](https://github.com/kubernetes/kops).
 
 ## Example
 

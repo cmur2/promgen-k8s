@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4
+
+IMPROVEMENTS:
+
+- Allow specifying `prometheus.io/module` and `prometheus.io/path` annotations for blackbox service monitoring
+
 ## 0.1.3 (December 22, 2017)
 
 IMPROVEMENTS:
