@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.4
+## 0.1.4 (February 13, 2018)
 
 IMPROVEMENTS:
 

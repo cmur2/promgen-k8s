@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
   name='promgen-k8s',
-  version='0.1.3',
+  version='0.1.4',
   packages=['promgen_k8s'],
   url='https://github.com/cmur2/promgen-k8s',
   license='Apache 2.0',
