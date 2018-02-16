@@ -34,4 +34,4 @@ IMPROVEMENTS:
 
 NEW FEATURES:
 
-- Initial relase
+- Initial release
