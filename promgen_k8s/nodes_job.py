@@ -1,5 +1,5 @@
 
-from prom_dsl import *
+from .prom_dsl import *
 
 class NodesJob:
   def __init__(self, scrape_interval=None, additional_relabel_configs=[], additional_metric_relabel_configs=[]):

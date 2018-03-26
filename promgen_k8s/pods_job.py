@@ -1,5 +1,5 @@
 
-from prom_dsl import *
+from .prom_dsl import *
 
 class PodsJob:
   def __init__(self, interval_map={}, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
