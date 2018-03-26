@@ -34,4 +34,4 @@ class Generator:
       for j in c.jobs:
         j.generate(prom_conf, c)
 
-    yaml.dump(prom_conf, file, Dumper=ListIndentingDumper, default_flow_style=False, explicit_start=True)
+    yaml.dump(prom_conf, file, encoding=('utf-8'), Dumper=ListIndentingDumper, default_flow_style=False, explicit_start=True)

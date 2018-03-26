@@ -57,6 +57,5 @@ class TestPromgenK8s(snapshottest.TestCase):
     self.assertIsNotNone(generator)
     f = io.BytesIO()
     generator.dump(f)
-    # TODO: behaves a bit odd on changes
-    self.assertMatchSnapshot(f.getvalue())
+    self.assertMatchSnapshot(f.getvalue().decode('utf-8').split('\n'))
     f.close()
