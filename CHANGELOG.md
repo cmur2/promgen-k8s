@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5
+
+IMPROVEMENTS:
+
+- Add snapshot tests for generated YAML
+
 ## 0.1.4 (February 13, 2018)
 
 IMPROVEMENTS:
