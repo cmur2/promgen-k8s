@@ -21,7 +21,7 @@ class PodsJob:
   # of the global default (must be configured appropriately)
   def generate(self, prom_conf, c):
     self.generate_interval(prom_conf, c, 'default', None)
-    for name, value in self.interval_map.iteritems():
+    for name, value in self.interval_map.items():
       self.generate_interval(prom_conf, c, name, value)
 
   def generate_interval(self, prom_conf, c, interval_name, interval_value):
