@@ -1,12 +1,12 @@
 
 from .prom_dsl import *
 
-class CadvisorJob:
-  def __init__(self, scrape_interval=None, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
+class CadvisorJob(object):
+  def __init__(self, scrape_interval=None, additional_relabel_configs=None, additional_metric_relabel_configs=None):
     self.type = 'cadvisor'
     self.scrape_interval = scrape_interval
-    self.additional_relabel_configs = additional_relabel_configs
-    self.additional_metric_relabel_configs = additional_metric_relabel_configs
+    self.additional_relabel_configs = additional_relabel_configs or []
+    self.additional_metric_relabel_configs = additional_metric_relabel_configs or []
 
   # Scrape config for Kubelet cAdvisor.
   #
@@ -50,10 +50,10 @@ class CadvisorJob:
 
       'metric_relabel_configs': [
         replace(source_labels=['id'],
-          regex='^/machine\.slice/machine-rkt\\\\x2d([^\\\\]+)\\\\.+/([^/]+)\.service$', replacement='${2}-${1}',
+          regex=r'^/machine\.slice/machine-rkt\\x2d([^\\]+)\\.+/([^/]+)\.service$', replacement='${2}-${1}',
           target_label='rkt_container_name'),
         replace(source_labels=['id'],
-          regex='^/system\.slice/(.+)\.service$', replacement='${1}',
+          regex=r'^/system\.slice/(.+)\.service$', replacement='${1}',
           target_label='systemd_service_name'),
         drop(source_labels=['__name__'], regex='go_.*')
       ]

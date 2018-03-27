@@ -1,12 +1,12 @@
 
 from .prom_dsl import *
 
-class PodsJob:
-  def __init__(self, interval_map={}, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
+class PodsJob(object):
+  def __init__(self, interval_map=None, additional_relabel_configs=None, additional_metric_relabel_configs=None):
     self.type = 'pods'
-    self.interval_map = interval_map
-    self.additional_relabel_configs = additional_relabel_configs
-    self.additional_metric_relabel_configs = additional_metric_relabel_configs
+    self.interval_map = interval_map or {}
+    self.additional_relabel_configs = additional_relabel_configs or []
+    self.additional_metric_relabel_configs = additional_metric_relabel_configs or []
 
   # Example scrape config for pods
   #
@@ -66,7 +66,7 @@ class PodsJob:
       ]
     })
 
-    if interval_name is 'default':
+    if interval_name == 'default':
       prom_conf['scrape_configs'][-1]['relabel_configs'][1] = \
         drop(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_interval'], regex='.+')
     else:

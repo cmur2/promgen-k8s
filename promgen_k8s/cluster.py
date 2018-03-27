@@ -1,11 +1,11 @@
 
-class Cluster:
-  def __init__(self, name, public_domain='example.com', private_domain='example.loc', incluster=False, jobs=[]):
+class Cluster(object):
+  def __init__(self, name, public_domain='example.com', private_domain='example.loc', incluster=False, jobs=None):
     self.name = name
     self.public_domain = public_domain
     self.private_domain = private_domain
     self.incluster = incluster
-    self.jobs = jobs
+    self.jobs = jobs or []
 
     if self.incluster:
       self.bearer_token_file = '/var/run/secrets/kubernetes.io/serviceaccount/token'
@@ -28,10 +28,3 @@ class Cluster:
         'tls_config': { 'ca_file': self.ca_file },
         'bearer_token_file': self.bearer_token_file
       }
-
-  def get_job_type(self, type):
-    jobs = filter(lambda job: job['type'] == type, self.jobs)
-    if jobs:
-      return jobs[0]
-    else:
-      return None

@@ -11,4 +11,5 @@ matrix:
     - python: "3.6"
 
 script:
+  - pylint promgen_k8s
   - pytest

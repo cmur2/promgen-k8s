@@ -17,12 +17,12 @@ class ListIndentingDumper(yaml.Dumper):
   def ignore_aliases(self, data):
     return True
 
-class Generator:
-  def __init__(self, clusters, initial_prom_conf={}):
+class Generator(object):
+  def __init__(self, clusters, initial_prom_conf=None):
     self.clusters = clusters
-    self.initial_prom_conf = initial_prom_conf
+    self.initial_prom_conf = initial_prom_conf or {}
 
-  def dump(self, file):
+  def dump(self, yaml_file):
     prom_conf = {}
     prom_conf.update(self.initial_prom_conf)
 
@@ -34,4 +34,4 @@ class Generator:
       for j in c.jobs:
         j.generate(prom_conf, c)
 
-    yaml.dump(prom_conf, file, encoding=('utf-8'), Dumper=ListIndentingDumper, default_flow_style=False, explicit_start=True)
+    yaml.dump(prom_conf, yaml_file, encoding=('utf-8'), Dumper=ListIndentingDumper, default_flow_style=False, explicit_start=True)

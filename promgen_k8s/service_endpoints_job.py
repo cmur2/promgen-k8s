@@ -1,12 +1,12 @@
 
 from .prom_dsl import *
 
-class ServiceEndpointsJob:
-  def __init__(self, scrape_interval=None, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
+class ServiceEndpointsJob(object):
+  def __init__(self, scrape_interval=None, additional_relabel_configs=None, additional_metric_relabel_configs=None):
     self.type = 'service-endpoints'
     self.scrape_interval = scrape_interval
-    self.additional_relabel_configs = additional_relabel_configs
-    self.additional_metric_relabel_configs = additional_metric_relabel_configs
+    self.additional_relabel_configs = additional_relabel_configs or []
+    self.additional_metric_relabel_configs = additional_metric_relabel_configs or []
 
   # Scrape config for service endpoints.
   #
@@ -36,7 +36,7 @@ class ServiceEndpointsJob:
 
       'relabel_configs': [
         keep(source_labels=['__meta_kubernetes_service_annotation_prometheus_io_scrape'], regex=True),
-        # TODO: does not support any __meta_kubernetes_service_annotation_prometheus_io_scheme except HTTP
+        # Note: does not support any __meta_kubernetes_service_annotation_prometheus_io_scheme except HTTP
         replace(source_labels=['__meta_kubernetes_service_annotation_prometheus_io_path'],
           regex='(.+)',
           target_label='__metrics_path__'),

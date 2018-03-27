@@ -1,12 +1,12 @@
 
 from .prom_dsl import *
 
-class IngressesJob:
-  def __init__(self, scrape_interval=None, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
+class IngressesJob(object):
+  def __init__(self, scrape_interval=None, additional_relabel_configs=None, additional_metric_relabel_configs=None):
     self.type = 'ingresses'
     self.scrape_interval = scrape_interval
-    self.additional_relabel_configs = additional_relabel_configs
-    self.additional_metric_relabel_configs = additional_metric_relabel_configs
+    self.additional_relabel_configs = additional_relabel_configs or []
+    self.additional_metric_relabel_configs = additional_metric_relabel_configs or []
 
   # Example scrape config for probing ingresses via the Blackbox Exporter.
   #
@@ -36,7 +36,7 @@ class IngressesJob:
 
       'relabel_configs': [
         keep(source_labels=['__meta_kubernetes_ingress_annotation_prometheus_io_probe'], regex=True),
-        # TODO: does not support any __meta_kubernetes_ingress_scheme except HTTP
+        # Note: does not support any __meta_kubernetes_ingress_scheme except HTTP
         replace(source_labels=['__address__','__meta_kubernetes_ingress_path'],
           regex='(.+);(.+)', replacement='${1}${2}',
           target_label='__address__'),

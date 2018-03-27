@@ -19,7 +19,6 @@ def labelmap(**kwargs):
   return kwargs
 
 def replace(**kwargs):
-  # TODO: replace is the default action, drop it?
   kwargs['action'] = 'replace'
   return kwargs
 

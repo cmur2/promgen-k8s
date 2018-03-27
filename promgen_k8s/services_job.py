@@ -1,12 +1,12 @@
 
 from .prom_dsl import *
 
-class ServicesJob:
-  def __init__(self, scrape_interval=None, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
+class ServicesJob(object):
+  def __init__(self, scrape_interval=None, additional_relabel_configs=None, additional_metric_relabel_configs=None):
     self.type = 'services'
     self.scrape_interval = scrape_interval
-    self.additional_relabel_configs = additional_relabel_configs
-    self.additional_metric_relabel_configs = additional_metric_relabel_configs
+    self.additional_relabel_configs = additional_relabel_configs or []
+    self.additional_metric_relabel_configs = additional_metric_relabel_configs or []
 
   # Example scrape config for probing services via the Blackbox Exporter.
   #

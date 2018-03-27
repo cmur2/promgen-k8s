@@ -1,12 +1,12 @@
 
 from .prom_dsl import *
 
-class NodesJob:
-  def __init__(self, scrape_interval=None, additional_relabel_configs=[], additional_metric_relabel_configs=[]):
+class NodesJob(object):
+  def __init__(self, scrape_interval=None, additional_relabel_configs=None, additional_metric_relabel_configs=None):
     self.type = 'nodes'
     self.scrape_interval = scrape_interval
-    self.additional_relabel_configs = additional_relabel_configs
-    self.additional_metric_relabel_configs = additional_metric_relabel_configs
+    self.additional_relabel_configs = additional_relabel_configs or []
+    self.additional_metric_relabel_configs = additional_metric_relabel_configs or []
 
   # Scrape config for nodes (kubelet).
   #
