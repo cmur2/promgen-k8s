@@ -17,6 +17,8 @@ class PodsJob(object):
   # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
   # * `prometheus.io/port`: Scrape the pod on the indicated port instead of the
   # pod's declared ports (default is a port-free target if none are declared).
+  # * `prometheus.io/filterport`: If `true` and no `prometheus.io/port` given
+  # then filter the pod's declared ports for those with name ending in 'metrics'.
   # * `prometheus.io/interval`: If present, use the given level instead
   # of the global default (must be configured appropriately)
   def generate(self, prom_conf, c):
@@ -42,12 +44,26 @@ class PodsJob(object):
       'relabel_configs': [
         keep(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_scrape'], regex='true'),
         None,
+        # set prometheus.io/filterport to false if prometheus.io/port is given
+        replace(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_port'],
+          regex='(.+)', replacement='false',
+          target_label='__meta_kubernetes_pod_annotation_prometheus_io_filterport'),
+        # keep all if prometheus.io/filterport is false or only matching else
+        keep(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_filterport', '__meta_kubernetes_pod_container_port_name'],
+          separator=';', regex='(false;.*)|(true;.*metrics)'),
+        # set prometheus.io/port to container port number if prometheus.io/filterport is true
+        replace(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_filterport', '__meta_kubernetes_pod_container_port_number'],
+          separator=';', regex='true;(.+)',
+          target_label='__meta_kubernetes_pod_annotation_prometheus_io_port'),
+        # allow overwriting scrape path via prometheus.io/path
         replace(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_path'],
           regex='(.+)',
           target_label='__metrics_path__'),
+        # update address if prometheus.io/port is given
         replace(source_labels=['__address__', '__meta_kubernetes_pod_annotation_prometheus_io_port'],
           separator=';', regex='([^:]+)(?::\\d+)?;(\\d+)', replacement='$1:$2',
           target_label='__address__'),
+        # rewrite scrape path to use Kubernetes apiserver proxy
         replace(source_labels=['__meta_kubernetes_namespace', '__meta_kubernetes_pod_name', '__meta_kubernetes_pod_annotation_prometheus_io_port', '__metrics_path__'],
           separator=';', regex='(.+);(.+);(.+);(.+)', replacement='/api/v1/namespaces/$1/pods/$2:$3/proxy$4',
           target_label='__metrics_path__'),
