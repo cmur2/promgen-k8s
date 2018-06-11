@@ -40,7 +40,7 @@ class PodsJob(object):
       'bearer_token_file': c.bearer_token_file,
 
       'relabel_configs': [
-        keep(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_scrape'], regex=True),
+        keep(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_scrape'], regex='true'),
         None,
         replace(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_path'],
           regex='(.+)',

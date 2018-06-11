@@ -35,7 +35,7 @@ class IngressesJob(object):
       },
 
       'relabel_configs': [
-        keep(source_labels=['__meta_kubernetes_ingress_annotation_prometheus_io_probe'], regex=True),
+        keep(source_labels=['__meta_kubernetes_ingress_annotation_prometheus_io_probe'], regex='true'),
         # Note: does not support any __meta_kubernetes_ingress_scheme except HTTP
         replace(source_labels=['__address__','__meta_kubernetes_ingress_path'],
           regex='(.+);(.+)', replacement='${1}${2}',
