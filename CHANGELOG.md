@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.5
+## 0.1.5 (June 11, 2018)
 
 IMPROVEMENTS:
 
