@@ -1,11 +1,17 @@
 # Changelog
 
+## 0.1.6
+
+IMPROVEMENTS:
+
+- Add `kubernetes_container_name` label for all endpoints of pods where `prometheus.io/filterport: true`
+
 ## 0.1.5 (June 11, 2018)
 
 IMPROVEMENTS:
 
 - Add snapshot tests for generated YAML
-- Allow specifying `prometheus.io/filterport: true` on pods to automatically discover all endpoints who's pod port name ends with `metrics` instead of using `prometheus.io/port`.
+- Allow specifying `prometheus.io/filterport: true` on pods to automatically discover all endpoints who's pod port name ends with `metrics` instead of using `prometheus.io/port`
 
 ## 0.1.4 (February 13, 2018)
 

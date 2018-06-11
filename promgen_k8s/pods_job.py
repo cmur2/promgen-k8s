@@ -55,6 +55,10 @@ class PodsJob(object):
         replace(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_filterport', '__meta_kubernetes_pod_container_port_number'],
           separator=';', regex='true;(.+)',
           target_label='__meta_kubernetes_pod_annotation_prometheus_io_port'),
+        # set container name label for distinction if prometheus.io/filterport is true
+        replace(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_filterport', '__meta_kubernetes_pod_container_name'],
+          separator=';', regex='true;(.+)',
+          target_label='kubernetes_container_name'),
         # allow overwriting scrape path via prometheus.io/path
         replace(source_labels=['__meta_kubernetes_pod_annotation_prometheus_io_path'],
           regex='(.+)',
