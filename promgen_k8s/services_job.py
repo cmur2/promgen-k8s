@@ -14,6 +14,8 @@ class ServicesJob(object):
   # via the following annotations:
   #
   # * `prometheus.io/probe`: Only probe services that have a value of `true`
+  # * `prometheus.io/path`: If the probe path is not `/` override this.
+  # * `prometheus.io/module`: If the Blackbox exporter module used is not named `http_2xx` override this.
   def generate(self, prom_conf, c):
     prom_conf['scrape_configs'].append({
       'job_name': '{0}-kubernetes-services'.format(c.name),
