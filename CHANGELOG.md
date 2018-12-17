@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.7
+
+IMPROVEMENTS:
+
+- Allow specifying `prometheus.io/module` annotation for blackbox ingress monitoring
+
 ## 0.1.6 (June 11, 2018)
 
 IMPROVEMENTS:

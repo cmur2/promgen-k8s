@@ -14,6 +14,7 @@ class IngressesJob(object):
   # via the following annotations:
   #
   # * `prometheus.io/probe`: Only probe services that have a value of `true`
+  # * `prometheus.io/module`: If the Blackbox exporter module used is not named `http_2xx` override this.
   def generate(self, prom_conf, c):
     prom_conf['scrape_configs'].append({
       'job_name': '{0}-kubernetes-ingresses'.format(c.name),
@@ -37,8 +38,9 @@ class IngressesJob(object):
       'relabel_configs': [
         keep(source_labels=['__meta_kubernetes_ingress_annotation_prometheus_io_probe'], regex='true'),
         # Note: does not support any __meta_kubernetes_ingress_scheme except HTTP
+        copy_value('__meta_kubernetes_ingress_annotation_prometheus_io_module', '__param_module'),
         replace(source_labels=['__address__','__meta_kubernetes_ingress_path'],
-          regex='(.+);(.+)', replacement='${1}${2}',
+          separator=';', regex='(.+);(.+)', replacement='$1$2',
           target_label='__address__'),
         copy_value('__address__', '__param_target'),
         copy_value('__address__', 'instance'),
