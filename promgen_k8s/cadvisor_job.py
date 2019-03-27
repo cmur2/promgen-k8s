@@ -44,7 +44,7 @@ class CadvisorJob(object):
         copy_value('__address__', 'instance'),
         set_value('__address__', '{0}:443'.format(c.api_server)),
         replace(source_labels=['__meta_kubernetes_node_name'],
-          regex='(.+)', replacement='/api/v1/nodes/${1}:10250/proxy/metrics/cadvisor',
+          regex='(.+)', replacement='/api/v1/nodes/${1}:10255/proxy/metrics/cadvisor',
           target_label='__metrics_path__')
       ],
 

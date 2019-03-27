@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0
+
+CHANGES:
+
+- Switch to kubelet HTTP port 10255 for scraping cadvisor and nodes metrics since that also works with kubelet `--authorization-mode=Webhook`
+
 ## 0.1.7 (December 17, 2018)
 
 IMPROVEMENTS:
