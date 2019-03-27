@@ -38,7 +38,7 @@ class NodesJob(object):
         copy_value('__address__', 'instance'),
         set_value('__address__', '{0}:443'.format(c.api_server)),
         replace(source_labels=['__meta_kubernetes_node_name'],
-          regex='(.+)', replacement='/api/v1/nodes/${1}/proxy/metrics',
+          regex='(.+)', replacement='/api/v1/nodes/${1}:10250/proxy/metrics',
           target_label='__metrics_path__')
       ],
 
