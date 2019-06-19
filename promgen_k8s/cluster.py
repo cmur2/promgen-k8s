@@ -24,7 +24,7 @@ class Cluster(object):
     else:
       return {
         'role': role,
-        'api_server': self.api_server,
+        'api_server': 'https://{0}'.format(self.api_server),
         'tls_config': { 'ca_file': self.ca_file },
         'bearer_token_file': self.bearer_token_file
       }

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+IMPROVEMENTS:
+
+- Force usage of HTTPS for Kubernetes SD apiserver connections since newer Prometheus versions changed the default
+
 ## 0.2.0 (March 27, 2019)
 
 CHANGES:
