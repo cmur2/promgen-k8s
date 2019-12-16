@@ -41,7 +41,7 @@ CLUSTERS = [
 if __name__ == "__main__":
   # read in the stub config
   with open('example-prometheus-stub.yml', 'r') as f:
-    stub_prom_conf = yaml.load(f)
+    stub_prom_conf = yaml.load(f, Loader=yaml.SafeLoader)
 
   generator = g.Generator(CLUSTERS, initial_prom_conf=stub_prom_conf)
 
