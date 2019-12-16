@@ -1,0 +1,15 @@
+[[source]]
+url = 'https://pypi.python.org/simple'
+
+[requires]
+python_version = '3.8'
+
+[packages]
+pyyaml = '*'
+
+[dev-packages]
+rope = '*'
+pylint = '*'
+yapf = '*'
+mock = '*'
+snapshottest = '*'

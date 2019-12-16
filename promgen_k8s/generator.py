@@ -1,4 +1,3 @@
-
 import yaml
 
 from .cadvisor_job import *
@@ -9,7 +8,9 @@ from .prom_dsl import *
 from .service_endpoints_job import *
 from .services_job import *
 
+
 # via http://pyyaml.org/ticket/64 and http://signal0.com/2013/02/06/disabling_aliases_in_pyyaml.html
+# pylint: disable=too-many-ancestors
 class ListIndentingDumper(yaml.Dumper):
   def increase_indent(self, flow=False, indentless=False):
     return super(ListIndentingDumper, self).increase_indent(flow, False)
@@ -17,7 +18,8 @@ class ListIndentingDumper(yaml.Dumper):
   def ignore_aliases(self, data):
     return True
 
-class Generator(object):
+
+class Generator():
   def __init__(self, clusters, initial_prom_conf=None):
     self.clusters = clusters
     self.initial_prom_conf = initial_prom_conf or {}
@@ -30,8 +32,13 @@ class Generator(object):
       prom_conf['scrape_configs'] = []
 
     # add jobs for k8s clusters
-    for c in self.clusters:
-      for j in c.jobs:
-        j.generate(prom_conf, c)
+    for cluster in self.clusters:
+      for j in cluster.jobs:
+        j.generate(prom_conf, cluster)
 
-    yaml.dump(prom_conf, yaml_file, encoding=('utf-8'), Dumper=ListIndentingDumper, default_flow_style=False, explicit_start=True)
+    yaml.dump(prom_conf,
+              yaml_file,
+              encoding=('utf-8'),
+              Dumper=ListIndentingDumper,
+              default_flow_style=False,
+              explicit_start=True)

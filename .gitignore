@@ -1,9 +1,7 @@
-# Byte-compiled / optimized / DLL files
-.cache/
 __pycache__/
 *.py[cod]
 build/
 dist/
-env/
 example-prometheus.yml
 MANIFEST
+Pipfile.lock

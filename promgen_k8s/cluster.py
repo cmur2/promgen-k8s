@@ -1,5 +1,4 @@
-
-class Cluster(object):
+class Cluster():
   def __init__(self, name, public_domain='example.com', private_domain='example.loc', incluster=False, jobs=None):
     self.name = name
     self.public_domain = public_domain
@@ -18,13 +17,13 @@ class Cluster(object):
 
   def get_kubernetes_sd_config(self, role):
     if self.incluster:
-      return {
-        'role': role
-      }
-    else:
-      return {
-        'role': role,
-        'api_server': 'https://{0}'.format(self.api_server),
-        'tls_config': { 'ca_file': self.ca_file },
-        'bearer_token_file': self.bearer_token_file
-      }
+      return {'role': role}
+
+    return {
+      'role': role,
+      'api_server': 'https://{0}'.format(self.api_server),
+      'tls_config': {
+        'ca_file': self.ca_file
+      },
+      'bearer_token_file': self.bearer_token_file
+    }
