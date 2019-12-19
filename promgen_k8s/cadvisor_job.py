@@ -1,8 +1,14 @@
+from typing import (Optional)
+
+from .cluster import *
 from .prom_dsl import *
 
 
-class CadvisorJob():
-  def __init__(self, scrape_interval=None, additional_relabel_configs=None, additional_metric_relabel_configs=None):
+class CadvisorJob(GeneratorJob):
+  def __init__(self,
+               scrape_interval: Optional[str] = None,
+               additional_relabel_configs: Optional[List[Any]] = None,
+               additional_metric_relabel_configs: Optional[List[Any]] = None):
     self.type = 'cadvisor'
     self.scrape_interval = scrape_interval
     self.additional_relabel_configs = additional_relabel_configs or []
@@ -22,7 +28,7 @@ class CadvisorJob():
   #
   # This job is not necessary and should be removed in Kubernetes 1.6 and
   # earlier versions, or it will cause the metrics to be scraped twice.
-  def generate(self, prom_conf, cluster):
+  def generate(self, prom_conf: Dict[str, Any], cluster: Cluster) -> None:
     prom_conf['scrape_configs'].append({
       'job_name': '{0}-kubernetes-cadvisor'.format(cluster.name),
       'scheme': 'https',

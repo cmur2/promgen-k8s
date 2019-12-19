@@ -1,4 +1,6 @@
 __pycache__/
+.mypy_cache
+.pytest_cache
 *.py[cod]
 build/
 dist/

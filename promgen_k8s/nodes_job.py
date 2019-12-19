@@ -1,8 +1,14 @@
+from typing import (Optional)
+
+from .cluster import *
 from .prom_dsl import *
 
 
-class NodesJob():
-  def __init__(self, scrape_interval=None, additional_relabel_configs=None, additional_metric_relabel_configs=None):
+class NodesJob(GeneratorJob):
+  def __init__(self,
+               scrape_interval: Optional[str] = None,
+               additional_relabel_configs: Optional[List[Any]] = None,
+               additional_metric_relabel_configs: Optional[List[Any]] = None):
     self.type = 'nodes'
     self.scrape_interval = scrape_interval
     self.additional_relabel_configs = additional_relabel_configs or []
@@ -14,7 +20,7 @@ class NodesJob():
   # Kubernetes apiserver.  This means it will work if Prometheus is running out of
   # cluster, or can't connect to nodes for some other reason (e.g. because of
   # firewalling).
-  def generate(self, prom_conf, cluster):
+  def generate(self, prom_conf: Dict[str, Any], cluster: Cluster) -> None:
     prom_conf['scrape_configs'].append({
       'job_name': '{0}-kubernetes-nodes'.format(cluster.name),
       'scheme': 'https',

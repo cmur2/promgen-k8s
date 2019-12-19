@@ -1,8 +1,14 @@
+from typing import (Optional)
+
+from .cluster import *
 from .prom_dsl import *
 
 
-class ServiceEndpointsJob():
-  def __init__(self, scrape_interval=None, additional_relabel_configs=None, additional_metric_relabel_configs=None):
+class ServiceEndpointsJob(GeneratorJob):
+  def __init__(self,
+               scrape_interval: Optional[str] = None,
+               additional_relabel_configs: Optional[List[Any]] = None,
+               additional_metric_relabel_configs: Optional[List[Any]] = None):
     self.type = 'service-endpoints'
     self.scrape_interval = scrape_interval
     self.additional_relabel_configs = additional_relabel_configs or []
@@ -19,7 +25,7 @@ class ServiceEndpointsJob():
   # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
   # * `prometheus.io/port`: If the metrics are exposed on a different port to the
   # service then set this appropriately.
-  def generate(self, prom_conf, cluster):
+  def generate(self, prom_conf: Dict[str, Any], cluster: Cluster) -> None:
     prom_conf['scrape_configs'].append({
       'job_name': '{0}-kubernetes-service-endpoints'.format(cluster.name),
       'scheme': 'https',

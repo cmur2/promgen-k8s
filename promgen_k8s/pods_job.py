@@ -1,8 +1,14 @@
+from typing import (Optional)
+
+from .cluster import *
 from .prom_dsl import *
 
 
-class PodsJob():
-  def __init__(self, interval_map=None, additional_relabel_configs=None, additional_metric_relabel_configs=None):
+class PodsJob(GeneratorJob):
+  def __init__(self,
+               interval_map: Dict[str, Optional[str]] = None,
+               additional_relabel_configs: Optional[List[Any]] = None,
+               additional_metric_relabel_configs: Optional[List[Any]] = None):
     self.type = 'pods'
     self.interval_map = interval_map or {}
     self.additional_relabel_configs = additional_relabel_configs or []
@@ -21,12 +27,12 @@ class PodsJob():
   # then filter the pod's declared ports for those with name ending in 'metrics'.
   # * `prometheus.io/interval`: If present, use the given level instead
   # of the global default (must be configured appropriately)
-  def generate(self, prom_conf, cluster):
+  def generate(self, prom_conf: Dict[str, Any], cluster: Cluster) -> None:
     self.generate_interval(prom_conf, cluster, 'default', None)
     for name, value in self.interval_map.items():
       self.generate_interval(prom_conf, cluster, name, value)
 
-  def generate_interval(self, prom_conf, cluster, interval_name, interval_value):
+  def generate_interval(self, prom_conf: Dict[str, Any], cluster: Cluster, interval_name, interval_value) -> None:
     prom_conf['scrape_configs'].append({
       'job_name': '{0}-kubernetes-pods-{1}'.format(cluster.name, interval_name),
       'scheme': 'https',

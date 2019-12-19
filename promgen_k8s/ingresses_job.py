@@ -1,8 +1,14 @@
+from typing import (Optional)
+
+from .cluster import *
 from .prom_dsl import *
 
 
-class IngressesJob():
-  def __init__(self, scrape_interval=None, additional_relabel_configs=None, additional_metric_relabel_configs=None):
+class IngressesJob(GeneratorJob):
+  def __init__(self,
+               scrape_interval: Optional[str] = None,
+               additional_relabel_configs: Optional[List[Any]] = None,
+               additional_metric_relabel_configs: Optional[List[Any]] = None):
     self.type = 'ingresses'
     self.scrape_interval = scrape_interval
     self.additional_relabel_configs = additional_relabel_configs or []
@@ -15,7 +21,7 @@ class IngressesJob():
   #
   # * `prometheus.io/probe`: Only probe services that have a value of `true`
   # * `prometheus.io/module`: If the Blackbox exporter module used is not named `http_2xx` override this.
-  def generate(self, prom_conf, cluster):
+  def generate(self, prom_conf: Dict[str, Any], cluster: Cluster) -> None:
     prom_conf['scrape_configs'].append({
       'job_name': '{0}-kubernetes-ingresses'.format(cluster.name),
       'scheme': 'https',

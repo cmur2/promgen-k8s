@@ -1,22 +1,18 @@
-
 # import unittest
 import io
-import sys
-import time
-
-import mock
 
 import snapshottest
 
 import promgen_k8s as g
 from promgen_k8s.prom_dsl import *
 
-class TestPromgenK8s(snapshottest.TestCase):
 
+class TestPromgenK8s(snapshottest.TestCase):
   def test_generate(self):
     stub_prom_conf = {
       'global': {
-        'scrape_interval': '1m', 'evaluation_interval': '1m'
+        'scrape_interval': '1m',
+        'evaluation_interval': '1m'
       },
       'rule_files': ['/etc/alert.rules'],
       'scrape_configs': []
@@ -52,10 +48,10 @@ class TestPromgenK8s(snapshottest.TestCase):
         g.ServicesJob(),
         g.PodsJob(interval_map={'long': '1h'})
       ])
-    ]
+    ]  # yapf: disable
     generator = g.Generator(clusters, initial_prom_conf=stub_prom_conf)
     self.assertIsNotNone(generator)
-    f = io.BytesIO()
-    generator.dump(f)
-    self.assertMatchSnapshot(f.getvalue().decode('utf-8').split('\n'))
-    f.close()
+    tmp_file = io.BytesIO()
+    generator.dump(tmp_file)
+    self.assertMatchSnapshot(tmp_file.getvalue().decode('utf-8').split('\n'))
+    tmp_file.close()

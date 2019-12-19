@@ -1,3 +1,5 @@
+from typing import (Any, Dict, IO, List, Optional)
+
 import yaml
 
 from .cadvisor_job import *
@@ -20,11 +22,11 @@ class ListIndentingDumper(yaml.Dumper):
 
 
 class Generator():
-  def __init__(self, clusters, initial_prom_conf=None):
+  def __init__(self, clusters: List[Cluster], initial_prom_conf: Optional[Dict[str, Any]] = None):
     self.clusters = clusters
     self.initial_prom_conf = initial_prom_conf or {}
 
-  def dump(self, yaml_file):
+  def dump(self, yaml_file: IO) -> None:
     prom_conf = {}
     prom_conf.update(self.initial_prom_conf)
 
@@ -33,8 +35,8 @@ class Generator():
 
     # add jobs for k8s clusters
     for cluster in self.clusters:
-      for j in cluster.jobs:
-        j.generate(prom_conf, cluster)
+      for job in cluster.jobs:
+        job.generate(prom_conf, cluster)
 
     yaml.dump(prom_conf,
               yaml_file,

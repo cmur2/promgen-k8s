@@ -1,5 +1,21 @@
+from typing import (Any, Dict, List)
+
+import abc
+
+
+class GeneratorJob(abc.ABC):
+  @abc.abstractmethod
+  def generate(self, prom_conf: Dict[str, Any], cluster: 'Cluster') -> None:
+    pass
+
+
 class Cluster():
-  def __init__(self, name, public_domain='example.com', private_domain='example.loc', incluster=False, jobs=None):
+  def __init__(self,
+               name: str,
+               public_domain='example.com',
+               private_domain='example.loc',
+               incluster=False,
+               jobs: List[GeneratorJob] = None):
     self.name = name
     self.public_domain = public_domain
     self.private_domain = private_domain
@@ -15,7 +31,7 @@ class Cluster():
       self.ca_file = '/var/run/kube_secrets/{0}_ca_crt'.format(self.name)
       self.api_server = 'api.internal.{0}.{1}'.format(self.name, self.public_domain)
 
-  def get_kubernetes_sd_config(self, role):
+  def get_kubernetes_sd_config(self, role: str):
     if self.incluster:
       return {'role': role}
 

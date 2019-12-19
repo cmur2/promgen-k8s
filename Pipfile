@@ -8,8 +8,10 @@ python_version = '3.8'
 pyyaml = '*'
 
 [dev-packages]
-rope = '*'
-pylint = '*'
-yapf = '*'
 mock = '*'
+pylint = '*'
+pytest = '*'
 snapshottest = '*'
+rope = '*'
+yapf = '*'
+mypy = '*'
