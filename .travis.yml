@@ -1,22 +1,22 @@
 ---
-sudo: false
+os: linux
 language: python
 python:
-  - "3.5"
-  - "3.8"
+- "3.5"
+- "3.8"
 
-matrix:
+jobs:
   fast_finish: true
 
 env:
-  - PIPENV_VERBOSITY=-1
+- PIPENV_VERBOSITY=-1
 
 install:
-  # - pip install pipenv  # is already installed on Travis CI
-  - pipenv install --dev
+# - pip install pipenv  # is already installed on Travis CI
+- pipenv install --dev
 
 script:
-  - pipenv run yapf -q -r promgen_k8s
-  - pipenv run pylint --ignore=snapshots promgen_k8s tests
-  - pipenv run mypy promgen_k8s
-  - pipenv run pytest
+- pipenv run yapf -q -r promgen_k8s
+- pipenv run pylint --ignore=snapshots promgen_k8s tests
+- pipenv run mypy promgen_k8s
+- pipenv run pytest
