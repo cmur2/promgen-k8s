@@ -1,14 +1,12 @@
 # import unittest
 import io
 
-import snapshottest
-
 import promgen_k8s as g
 from promgen_k8s.prom_dsl import *
 
 
-class TestPromgenK8s(snapshottest.TestCase):
-  def test_generate(self):
+class TestPromgenK8s:
+  def test_generate(self, snapshot):
     stub_prom_conf = {
       'global': {
         'scrape_interval': '1m',
@@ -50,8 +48,8 @@ class TestPromgenK8s(snapshottest.TestCase):
       ])
     ]  # yapf: disable
     generator = g.Generator(clusters, initial_prom_conf=stub_prom_conf)
-    self.assertIsNotNone(generator)
+    assert generator is not None
     tmp_file = io.BytesIO()
     generator.dump(tmp_file)
-    self.assertMatchSnapshot(tmp_file.getvalue().decode('utf-8').split('\n'))
+    assert tmp_file.getvalue().decode('utf-8') == snapshot
     tmp_file.close()
