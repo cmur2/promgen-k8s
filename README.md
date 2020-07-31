@@ -28,9 +28,58 @@ promgen-k8s is successfully used with Kubernetes 1.8 clusters on [AWS](http://aw
 
 The [example](example-generator.py) uses a [stub file](example-prometheus-stub.yml) for manual configuration and can be tested using `pip install promgen-k8s` and then `python example-generator.py`.
 
-## Related
+## Related Work
 
 - [https://github.com/line/promgen]([https://github.com/line/promgen])
+
+## Doing a Release
+
+You need to have the [Poetry](https://python-poetry.org/docs/) dependency manager installed and a [PyPI](https://pypi.org/) account (a [test account](https://test.pypi.org/) works as well) including an authentication token.
+
+### Testing the Release
+
+One-time setup:
+
+```bash
+poetry config repositories.testpypi https://test.pypi.org/legacy/
+poetry config pypi-token.testpypi TOKEN_FROM_TESTPYPI_ACCOUNT
+```
+
+Bump version in [pyproject.toml](pyproject.toml), update the [changelog](CHANGELOG.md) with new release and date and commit.
+
+Build and release:
+
+```bash
+poetry publish -r testpypi --build
+```
+
+Check installation:
+
+```bash
+pip install --index-url https://test.pypi.org/simple/ promgen_k8s
+```
+
+### Official Release
+
+One-time setup:
+
+```bash
+poetry config pypi-token.pypi TOKEN_FROM_PYPI_ACCOUNT
+```
+
+Bump version in [pyproject.toml](pyproject.toml), update the [changelog](CHANGELOG.md) with new release and date and commit.
+
+Build and release:
+
+```bash
+poetry publish --build
+```
+
+Check installation:
+
+```bash
+pip install promgen_k8s
+```
 
 ## License
 

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["poetry>=1.0"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry]
+name = "promgen-k8s"
+version = "0.2.1"
+description = "A modular Prometheus 2 configuration file generator to monitor multiple Kubernetes clusters with a single Prometheus instance."
+authors = ["Christian Nicolai"]
+license = "Apache-2.0"
+homepage = "https://github.com/cmur2/promgen-k8s"
+include = ["CHANGELOG.md", "README.md"]
+
+[tool.poetry.dependencies]
+python = "^3.5"
+pyyaml = "*"
+
+[tool.poetry.dev-dependencies]
+pylint = "*"
+pytest = "*"
+snapshottest = "*"
+rope = "*"
+yapf = "*"
+mypy = "*"
