@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+CHANGES:
+
+- Use [Poetry](https://python-poetry.org/docs/) dependency manager instead of [pipenv](https://pipenv.pypa.io/) for the project now as Poetry is more stable, supports [pyproject.toml](pyproject.toml]) file format and compatible Python version ranges
+
 ## 0.2.1 (October 21, 2019)
 
 IMPROVEMENTS:

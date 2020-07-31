@@ -1,9 +1,10 @@
 __pycache__/
 .mypy_cache
 .pytest_cache
+*.egg-info/
 *.py[cod]
 build/
 dist/
 example-prometheus.yml
 MANIFEST
-Pipfile.lock
+poetry.lock
