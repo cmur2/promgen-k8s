@@ -15,7 +15,7 @@ from .services_job import *
 # pylint: disable=too-many-ancestors
 class ListIndentingDumper(yaml.Dumper):
   def increase_indent(self, flow=False, indentless=False):
-    return super(ListIndentingDumper, self).increase_indent(flow, False)
+    return super().increase_indent(flow, False)
 
   def ignore_aliases(self, data):
     return True
