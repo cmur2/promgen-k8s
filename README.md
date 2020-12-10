@@ -1,6 +1,6 @@
 # promgen-k8s
 
-[![Build Status](https://travis-ci.com/cmur2/promgen-k8s.svg?branch=master)](https://travis-ci.com/cmur2/promgen-k8s)
+![ci](https://github.com/cmur2/promgen-k8s/workflows/ci/badge.svg)
 
 A modular [Prometheus 2](https://prometheus.io) configuration file generator to monitor multiple [Kubernetes](https://kubernetes.io) clusters with a single Prometheus instance.
 
