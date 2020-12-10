@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.2
+## 0.2.2 (December 10, 2020)
 
 CHANGES:
 
