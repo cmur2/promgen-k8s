@@ -4,7 +4,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "promgen-k8s"
-version = "0.2.2"
+version = "0.3.0"
 description = "A modular Prometheus 2 configuration file generator to monitor multiple Kubernetes clusters with a single Prometheus instance."
 authors = ["Christian Nicolai"]
 license = "Apache-2.0"

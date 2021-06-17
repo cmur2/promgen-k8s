@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 (June 17, 2021)
+
+CHANGES:
+
+- Require Python 3.7 or above
+
+FIXES:
+
+- Re-add previously removed `rc_list()` DSL function
+
 ## 0.2.2 (December 10, 2020)
 
 CHANGES:
