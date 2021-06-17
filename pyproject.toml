@@ -12,7 +12,7 @@ homepage = "https://github.com/cmur2/promgen-k8s"
 include = ["CHANGELOG.md", "README.md"]
 
 [tool.poetry.dependencies]
-python = "^3.5"
+python = "^3.7"
 pyyaml = "*"
 
 [tool.poetry.dev-dependencies]
@@ -22,3 +22,4 @@ snapshottest = "*"
 rope = "*"
 yapf = "*"
 mypy = "*"
+types-pyyaml = "*"
