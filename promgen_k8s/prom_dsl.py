@@ -1,3 +1,4 @@
+import itertools
 from typing import (Dict)
 
 RelabelingStep = Dict  # pylint: disable=invalid-name
@@ -38,6 +39,14 @@ def replace(**kwargs) -> RelabelingStep:
   """
   kwargs['action'] = 'replace'
   return kwargs
+
+
+def rc_list(*things):
+  """
+  Returns an iterable list
+  """
+  iterables = [thing if isinstance(thing, list) else [thing] for thing in things]
+  return list(itertools.chain(*iterables))
 
 
 # Advanced DSL
