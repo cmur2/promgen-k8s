@@ -27,7 +27,7 @@ class ServiceEndpointsJob(GeneratorJob):
   # service then set this appropriately.
   def generate(self, prom_conf: Dict[str, Any], cluster: Cluster) -> None:
     prom_conf['scrape_configs'].append({
-      'job_name': '{0}-kubernetes-service-endpoints'.format(cluster.name),
+      'job_name': f'{cluster.name}-kubernetes-service-endpoints',
       'scheme': 'https',
       'kubernetes_sd_configs': [
         cluster.get_kubernetes_sd_config('endpoints')
@@ -60,7 +60,7 @@ class ServiceEndpointsJob(GeneratorJob):
                 separator=';', regex='(.+);(.+);(.+);(.+)', replacement='/api/v1/namespaces/$1/pods/$2:$3/proxy$4',
                 target_label='__metrics_path__'),
         copy_value('__address__', 'instance'),
-        set_value('__address__', '{0}:443'.format(cluster.api_server)),
+        set_value('__address__', f'{cluster.api_server}:443'),
         labelmap(regex='__meta_kubernetes_service_label_(.+)'),
         copy_value('__meta_kubernetes_namespace', 'kubernetes_namespace'),
         copy_value('__meta_kubernetes_service_name', 'kubernetes_service_name')

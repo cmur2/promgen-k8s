@@ -24,7 +24,7 @@ class ServicesJob(GeneratorJob):
   # * `prometheus.io/module`: If the Blackbox exporter module used is not named `http_2xx` override this.
   def generate(self, prom_conf: Dict[str, Any], cluster: Cluster) -> None:
     prom_conf['scrape_configs'].append({
-      'job_name': '{0}-kubernetes-services'.format(cluster.name),
+      'job_name': f'{cluster.name}-kubernetes-services',
       'scheme': 'https',
       'kubernetes_sd_configs': [
         cluster.get_kubernetes_sd_config('service')
@@ -54,7 +54,7 @@ class ServicesJob(GeneratorJob):
                 separator=';', regex='(.+);(.+)', replacement='$1$2',
                 target_label='__param_target'),
         copy_value('__address__', 'instance'),
-        set_value('__address__', '{0}:443'.format(cluster.api_server)),
+        set_value('__address__', f'{cluster.api_server}:443'),
         labelmap(regex='__meta_kubernetes_service_label_(.+)'),
         copy_value('__meta_kubernetes_namespace', 'kubernetes_namespace'),
         copy_value('__meta_kubernetes_service_name', 'kubernetes_service_name')

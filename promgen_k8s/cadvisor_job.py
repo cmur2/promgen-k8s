@@ -30,7 +30,7 @@ class CadvisorJob(GeneratorJob):
   # earlier versions, or it will cause the metrics to be scraped twice.
   def generate(self, prom_conf: Dict[str, Any], cluster: Cluster) -> None:
     prom_conf['scrape_configs'].append({
-      'job_name': '{0}-kubernetes-cadvisor'.format(cluster.name),
+      'job_name': f'{cluster.name}-kubernetes-cadvisor',
       'scheme': 'https',
       'kubernetes_sd_configs': [
         cluster.get_kubernetes_sd_config('node')
@@ -52,7 +52,7 @@ class CadvisorJob(GeneratorJob):
         remove_label('__meta_kubernetes_node_label_node_role_kubernetes_io_master'),
         labelmap(regex='__meta_kubernetes_node_label_(.+)'),
         copy_value('__address__', 'instance'),
-        set_value('__address__', '{0}:443'.format(cluster.api_server)),
+        set_value('__address__', f'{cluster.api_server}:443'),
         replace(source_labels=['__meta_kubernetes_node_name'],
           regex='(.+)', replacement='/api/v1/nodes/${1}:10255/proxy/metrics/cadvisor',
           target_label='__metrics_path__')

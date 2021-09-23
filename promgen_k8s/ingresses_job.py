@@ -23,7 +23,7 @@ class IngressesJob(GeneratorJob):
   # * `prometheus.io/module`: If the Blackbox exporter module used is not named `http_2xx` override this.
   def generate(self, prom_conf: Dict[str, Any], cluster: Cluster) -> None:
     prom_conf['scrape_configs'].append({
-      'job_name': '{0}-kubernetes-ingresses'.format(cluster.name),
+      'job_name': f'{cluster.name}-kubernetes-ingresses',
       'scheme': 'https',
       'kubernetes_sd_configs': [
         cluster.get_kubernetes_sd_config('ingress')
@@ -54,7 +54,7 @@ class IngressesJob(GeneratorJob):
                 target_label='__address__'),
         copy_value('__address__', '__param_target'),
         copy_value('__address__', 'instance'),
-        set_value('__address__', '{0}:443'.format(cluster.api_server)),
+        set_value('__address__', f'{cluster.api_server}:443'),
         labelmap(regex='__meta_kubernetes_ingress_label_(.+)'),
         copy_value('__meta_kubernetes_namespace', 'kubernetes_namespace'),
         copy_value('__meta_kubernetes_ingress_name', 'kubernetes_ingress_name')

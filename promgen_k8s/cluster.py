@@ -27,9 +27,9 @@ class Cluster():
       self.ca_file = '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
       self.api_server = 'kubernetes.default.svc'
     else:
-      self.bearer_token_file = '/var/run/kube_secrets/{0}_bearer_token'.format(self.name)
-      self.ca_file = '/var/run/kube_secrets/{0}_ca_crt'.format(self.name)
-      self.api_server = 'api.internal.{0}.{1}'.format(self.name, self.public_domain)
+      self.bearer_token_file = f'/var/run/kube_secrets/{self.name}_bearer_token'
+      self.ca_file = f'/var/run/kube_secrets/{self.name}_ca_crt'
+      self.api_server = f'api.internal.{self.name}.{self.public_domain}'
 
   def get_kubernetes_sd_config(self, role: str):
     if self.incluster:
@@ -37,7 +37,7 @@ class Cluster():
 
     return {
       'role': role,
-      'api_server': 'https://{0}'.format(self.api_server),
+      'api_server': f'https://{self.api_server}',
       'tls_config': {
         'ca_file': self.ca_file
       },

@@ -34,7 +34,7 @@ class PodsJob(GeneratorJob):
 
   def generate_interval(self, prom_conf: Dict[str, Any], cluster: Cluster, interval_name, interval_value) -> None:
     prom_conf['scrape_configs'].append({
-      'job_name': '{0}-kubernetes-pods-{1}'.format(cluster.name, interval_name),
+      'job_name': f'{cluster.name}-kubernetes-pods-{interval_name}',
       'scheme': 'https',
       'kubernetes_sd_configs': [
         cluster.get_kubernetes_sd_config('pod')
@@ -94,7 +94,7 @@ class PodsJob(GeneratorJob):
                 separator=';', regex='(.+);(.+);(.+);(.+)', replacement='/api/v1/namespaces/$1/pods/$2:$3/proxy$4',
                 target_label='__metrics_path__'),
         copy_value('__address__', 'instance'),
-        set_value('__address__', '{0}:443'.format(cluster.api_server)),
+        set_value('__address__', f'{cluster.api_server}:443'),
         labelmap(regex='__meta_kubernetes_pod_label_(.+)'),
         copy_value('__meta_kubernetes_namespace', 'kubernetes_namespace'),
         copy_value('__meta_kubernetes_pod_name', 'kubernetes_pod_name'),
