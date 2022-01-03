@@ -5,6 +5,7 @@ from .prom_dsl import *
 
 
 class PodsJob(GeneratorJob):
+
   def __init__(self,
                interval_map: Dict[str, Optional[str]] = None,
                additional_relabel_configs: Optional[List[Any]] = None,

@@ -4,12 +4,14 @@ import abc
 
 
 class GeneratorJob(abc.ABC):
+
   @abc.abstractmethod
   def generate(self, prom_conf: Dict[str, Any], cluster: 'Cluster') -> None:
     pass
 
 
 class Cluster():
+
   def __init__(self,
                name: str,
                public_domain='example.com',

@@ -5,6 +5,7 @@ from .prom_dsl import *
 
 
 class NodesJob(GeneratorJob):
+
   def __init__(self,
                scrape_interval: Optional[str] = None,
                additional_relabel_configs: Optional[List[Any]] = None,

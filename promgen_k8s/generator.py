@@ -14,6 +14,7 @@ from .services_job import *
 # via http://pyyaml.org/ticket/64 and http://signal0.com/2013/02/06/disabling_aliases_in_pyyaml.html
 # pylint: disable=too-many-ancestors
 class ListIndentingDumper(yaml.Dumper):
+
   def increase_indent(self, flow=False, indentless=False):
     return super().increase_indent(flow, False)
 
@@ -22,6 +23,7 @@ class ListIndentingDumper(yaml.Dumper):
 
 
 class Generator():
+
   def __init__(self, clusters: List[Cluster], initial_prom_conf: Optional[Dict[str, Any]] = None):
     self.clusters = clusters
     self.initial_prom_conf = initial_prom_conf or {}
