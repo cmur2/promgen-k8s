@@ -1,0 +1,26 @@
+{
+  extends: [
+    "config:base",
+    ":dependencyDashboard",
+    ":prHourlyLimitNone",
+    ":prConcurrentLimitNone",
+    ":label(dependency-upgrade)",
+  ],
+  schedule: ["before 8am on thursday"],
+  branchPrefix: "renovate-",
+  dependencyDashboardHeader: "View repository job log [here](https://app.renovatebot.com/dashboard#github/cmur2/promgen-k8s).",
+  separateMinorPatch: true,
+  commitMessagePrefix: "module: ",
+  commitMessageAction: "update",
+  commitMessageTopic: "{{depName}}",
+  commitMessageExtra: "to {{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}",
+  packageRules: [
+    // Commit message formats
+    {
+      matchManagers: ["github-actions"],
+      commitMessagePrefix: "ci: ",
+    },
+  ],
+  regexManagers: [],
+}
+
