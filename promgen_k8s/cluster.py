@@ -1,4 +1,4 @@
-from typing import (Any, Dict, List)
+from typing import (Any, Dict, List, Optional)
 
 import abc
 
@@ -17,7 +17,7 @@ class Cluster():
                public_domain='example.com',
                private_domain='example.loc',
                incluster=False,
-               jobs: List[GeneratorJob] = None):
+               jobs: Optional[List[GeneratorJob]] = None):
     self.name = name
     self.public_domain = public_domain
     self.private_domain = private_domain

@@ -7,7 +7,7 @@ from .prom_dsl import *
 class PodsJob(GeneratorJob):
 
   def __init__(self,
-               interval_map: Dict[str, Optional[str]] = None,
+               interval_map: Optional[Dict[str, Optional[str]]] = None,
                additional_relabel_configs: Optional[List[Any]] = None,
                additional_metric_relabel_configs: Optional[List[Any]] = None):
     self.type = 'pods'
